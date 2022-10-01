@@ -6,6 +6,7 @@ let orders = [];
 const formData = $("form");
 const tableData = $("table");
 const tableBody = $("tbody");
+const tableBodyOrders = $("#tableBodyOrders");
 const errorElement = $("#showMessage");
 const clientElement = $("#client");
 const btnOrders = $("#btnOrders");
@@ -29,7 +30,11 @@ btnOrders.addEventListener("click", () => {
     totalQty,
     totalSummary, 
     status: false
-  })
+  });
+
+  setTableOrders(orders);
+  clientElement.value = '';
+  listQuote = [];
   
 })
 
@@ -159,5 +164,31 @@ const setTable = (listQuote) => {
     tableBody.innerHTML = dataBody + totalData;
   } else {
     tableBody.innerHTML = "";
+  }
+};
+
+const setTableOrders = (orders) => {
+  console.table(orders);
+  let dataBody = "";
+
+  if (orders.length > 0) {
+    orders.map(
+      ({ name, totalQty, totalSummary, status }, i) => {
+        dataBody += `
+        <tr key='${i + 1}'>
+          <td>${name}</td>
+          <td>${totalQty}</td>
+          <td>${totalSummary}</td>
+          <td>${status}</td>
+        </tr>
+      `;
+      }
+    );
+
+
+    tableBody.innerHTML = '';
+    tableBodyOrders.innerHTML = dataBody;
+  } else {
+    tableBodyOrders.innerHTML = "";
   }
 };
